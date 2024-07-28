@@ -4,8 +4,13 @@ import SlideImg from "../assets/Slide.png"
 import NoodleImg from "../assets/Noodle.png"
 import RiverImg from "../assets/River.png"
 import QRImg from "../assets/QR.png"
+import Warung1Img from "../assets/Warung-1.png"
+import Warung2Img from "../assets/Warung-2.png"
+import Warung3Img from "../assets/Warung-3.png"
 import logo from "../assets/Logo.png"
 import RectangleCard from "../components/RectangleCard"
+import Anchor from "../components/Anchor"
+import Card from "../components/Card"
 
 const LandingPage = () => {
     return (
@@ -35,7 +40,7 @@ const LandingPage = () => {
                 </div>
             </section>
             <section className="flex justify-center p-10">
-                <div className="w-[70%] flex flex-col gap-10">
+                <div className="w-[70%] flex flex-col items-center gap-10">
                     <div className="text-[#646464] flex flex-col items-center gap-2 w-full">
                         <h1 className="text-4xl font-bold">Maps dan Peta Wisata</h1>
                         <p className="text-2xl">Easy and Fast</p>
@@ -49,6 +54,22 @@ const LandingPage = () => {
                                 <p>Scan Untuk Menjelajah</p>
                             </div>
                             <img src={QRImg} className="w-[23rem]" />
+                        </div>
+                    </div>
+                    <Anchor>Unduh Dena Wisata</Anchor>
+                </div>
+            </section>
+            <section className="flex justify-center p-10">
+                <div className="bg-[#F9F9FF] w-[90%] flex flex-col gap-6 py-8 items-center justify-center">
+                    <div className="w-[50%] text-center flex flex-col items-center gap-3">
+                        <h1 className="text-4xl text-[#285B0A] font-bold">Informasi FoodCourt</h1>
+                        <p className="text-[#717171]">The Nexcent blog is the best place to read about the latest membership insights, trends and more. See who's joining the community, read about how our community are increasing their membership income and lot's more.​</p>
+                    </div>
+                    <div className="flex justify-center w-[80%]">
+                        <div className="grid grid-cols-3 w-full h-full gap-5 min-h-[25rem]">
+                            <Card image={Warung2Img} title="Warung Pak Somat">memiliki berbagai macam menu yang menarik</Card>
+                            <Card image={Warung1Img} title="Warung Pak Somat">memiliki berbagai macam menu yang menarik</Card>
+                            <Card image={Warung3Img} title="Warung Pak Somat">memiliki berbagai macam menu yang menarik</Card>
                         </div>
                     </div>
                 </div>

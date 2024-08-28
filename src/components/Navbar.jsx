@@ -5,11 +5,11 @@ const Navbar = () => {
         <nav className="flex justify-between backdrop-blur-sm items-center text-white font-bold fixed top-0 left-0 z-20 w-full py-[1rem] px-[6rem]">
             <img src={logo} alt="" />
             <ul className='flex gap-10'>
-                <li>Home</li>
-                <li>Tentang Kami</li>
-                <li>Berita</li>
-                <li>Fitur</li>
-                <li>Layanan</li>
+                <li className='hover:text-blue-300'><a href="#home">Home</a></li>
+                <li className='hover:text-blue-300'><a href="#about">Tentang Kami</a></li>
+                <li className='hover:text-blue-300'><a href="#news">Berita</a></li>
+                <li className='hover:text-blue-300'><a href="#feature">Fitur</a></li>
+                <li className='hover:text-blue-300'><a href="#service">Layanan</a></li>
             </ul>
             <div className="flex gap-6">
                 <svg className='w-10' viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -5,7 +5,6 @@ import NoodleImg from "../assets/Noodle.png"
 import ProfileImg from "../assets/Profile.png"
 import RiverImg from "../assets/River.png"
 import QRImg from "../assets/QR.png"
-import DesaImg from "../assets/Desa.png"
 import PlaneImg from "../assets/Plane.png"
 import Warung1Img from "../assets/Warung-1.png"
 import Warung2Img from "../assets/Warung-2.png"
@@ -17,10 +16,81 @@ import logo from "../assets/Logo.png"
 import RectangleCard from "../components/RectangleCard"
 import Anchor from "../components/Anchor"
 import Card from "../components/Card"
+import { useEffect, useRef, useState } from "react"
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const LandingPage = () => {
+
+    const [isAnimated, setIsAnimated] = useState(false);
+    const mountRef = useRef(null);
+
+    useEffect(() => {
+        if(!isAnimated) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            
+            renderer.setClearColor(0xffffff, 1); 
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            mountRef.current.appendChild(renderer.domElement);
+
+            const controls = new OrbitControls(camera, renderer.domElement);
+    
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 10, 7.5);
+            scene.add(directionalLight);
+
+            const spotlight = new THREE.SpotLight(0xffffff, 2);
+            spotlight.position.set(15, 30, 20);
+            spotlight.castShadow = true;
+            scene.add(spotlight);
+            
+            const loader = new GLTFLoader();
+            loader.load('http://127.0.0.1:8000/api/ppk', function (gltf) {
+                scene.add(gltf.scene);
+                gltf.scene.position.set(0, 0, 0);
+            }, undefined, function (error) {
+                console.error('An error happened:', error);
+            });
+    
+            camera.position.x = 50;
+            camera.position.z = -10;
+            camera.position.y = 40;
+            camera.lookAt(0, 0, 0);
+
+            const animate = () => {
+                console.log('animate')
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+
+            setIsAnimated(true);
+            animate();
+
+            const handleResize = () => {
+                camera.aspect = (window.innerWidth/3) / (window.innerHeight/3);
+                camera.updateProjectionMatrix();
+                renderer.setSize((window.innerWidth/3), (window.innerHeight/3));
+            };
+            window.addEventListener('resize', handleResize);
+    
+            // Cleanup on unmount
+            return () => {
+                window.removeEventListener('resize', handleResize);
+                mountRef.current.removeChild(renderer.domElement);
+                renderer.dispose();
+            };
+        }
+    },[]);
+
     return (
-        <div className="relative w-screen h-screen bg-gradient-to-b from-[rgba(41,64,38,1)] via-[rgba(41,64,38,0.5)] via-10% to-20% to-[rgba(0,0,0,0)]">
+        <div className="relative w-full h-screen bg-gradient-to-b from-[rgba(41,64,38,1)] via-[rgba(41,64,38,0.5)] via-10% to-20% to-[rgba(0,0,0,0)]">
             <Navbar/>
             <section id="home" className="relative min-h-screen min-w-full">
                 <img className="absolute top-0 left-0 w-full h-full z-[-1]" src={HeroImg} alt="Gambar orang berenang" />
@@ -36,7 +106,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
-            <section id="tentang-kami" className="bg-[#F2F6F6] flex justify-center w-full relative">
+            <section id="about" className="bg-[#F2F6F6] flex justify-center w-full relative">
                 <img src={logo} className="opacity-40 absolute z-[1] w-[42rem] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                 <div className="w-[50%] pt-10 flex flex-col justify-between pb-32 text-center gap-32">
                     <h1 className="text-4xl font-bold">Tentang Kami</h1>
@@ -45,7 +115,9 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
-            <section className="flex justify-center p-10">
+            <section ref={mountRef} className="w-[80%] overflow-hidden">
+            </section>
+            <section id="news" className="flex justify-center p-10">
                 <div className="w-[70%] flex flex-col items-center gap-10">
                     <div className="text-[#646464] flex flex-col items-center gap-2 w-full">
                         <h1 className="text-4xl font-bold">Maps dan Peta Wisata</h1>
@@ -53,7 +125,7 @@ const LandingPage = () => {
                     </div>
                     <div className="grid grid-cols-2">
                         <div className="flex justify-center items-center">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.786605865273!2d113.83518407505568!3d-8.123196491906326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6bff1e82a8ac3%3A0x2c242e9b954f82f!2sDam%20kembar!5e0!3m2!1sid!2sid!4v1722145332836!5m2!1sid!2sid" className="w-[35rem] h-[27rem]" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3949.76638083046!2d113.83630099999999!3d-8.1252517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6bf8fb6e97339%3A0x6ce61ee74b7fe29a!2sBendung%20Kembar!5e0!3m2!1sid!2sid!4v1722354994101!5m2!1sid!2sid"className="w-[35rem] h-[27rem]" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                         <div className="flex justify-between flex-col gap-1 items-center">
                             <div className="font-bold bg-[#285B0A] w-fit py-3 px-5 rounded-2xl text-white text-2xl">
@@ -65,7 +137,7 @@ const LandingPage = () => {
                     <Anchor>Unduh Dena Wisata</Anchor>
                 </div>
             </section>
-            <section className="flex justify-center p-20">
+            <section id="feature" className="flex justify-center p-20">
                 <div className="bg-[#F9F9FF] w-[90%] flex flex-col gap-6 py-8 items-center justify-center">
                     <div className="w-[50%] text-center flex flex-col items-center gap-3">
                         <h1 className="text-4xl text-[#285B0A] font-bold">Informasi FoodCourt</h1>
@@ -80,13 +152,13 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
-            <section className="w-full flex flex-col gap-12 relative h-[42rem] p-[5rem] bg-[#E6F7EE]">
+            <section id="service" className="w-full flex flex-col gap-12 relative h-[42rem] p-[5rem] bg-[#E6F7EE] overflow-hidden">
                 <div className="flex w-full flex-col items-center h-[10%]">
                     <h1 className="text-4xl">Apa Kata Mereka</h1>
                     <h1 className="text-2xl">Tentang Wisata</h1>
                 </div>
                 <div className="relative h-full items-end flex">
-                    <ul className="flex gap-[18rem] w-[150%] absolute -left-1/4 items-center min-h-[30rem] overflow-auto">
+                    <ul className="flex gap-[18rem] w-[150%] absolute -left-1/4 items-center min-h-[30rem]">
                         <li>
                             <img src={Carousel1Img} alt="" />
                         </li>
@@ -141,8 +213,8 @@ const LandingPage = () => {
                     <div className="gap-5 flex flex-col items-start">
                         <div className="flex flex-col items-start justify-center ">
                             <div className="flex gap-5 items-center">
-                                <img src={DesaImg} className="w-20" alt="" />
-                                <p className="text-2xl font-bold">Ajung Oloh</p>
+                                <img src={logo} className="w-20" alt="" />
+                                <p className="text-2xl font-bold">WIDAMAR Desa Ajung</p>
                             </div>
                         </div>
                         <div className="flex flex-col items-start">

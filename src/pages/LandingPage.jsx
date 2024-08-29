@@ -19,6 +19,7 @@ import Card from "../components/Card"
 import { useEffect, useRef, useState } from "react"
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const LandingPage = () => {
@@ -51,6 +52,9 @@ const LandingPage = () => {
             scene.add(spotlight);
             
             const loader = new GLTFLoader();
+            const dracoLoader = new DRACOLoader();
+            dracoLoader.setDecoderPath('/draco/');
+            loader.setDRACOLoader(dracoLoader);
             loader.load('http://127.0.0.1:8000/api/ppk', function (gltf) {
                 scene.add(gltf.scene);
                 gltf.scene.position.set(0, 0, 0);
@@ -80,7 +84,6 @@ const LandingPage = () => {
             };
             window.addEventListener('resize', handleResize);
     
-            // Cleanup on unmount
             return () => {
                 window.removeEventListener('resize', handleResize);
                 mountRef.current.removeChild(renderer.domElement);
@@ -115,7 +118,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
-            <section ref={mountRef} className="w-[80%] overflow-hidden">
+            <section ref={mountRef} className="w-full overflow-hidden">
             </section>
             <section id="news" className="flex justify-center p-10">
                 <div className="w-[70%] flex flex-col items-center gap-10">

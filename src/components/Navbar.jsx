@@ -2,7 +2,7 @@ import logo from '../assets/Logo.png'
 
 const Navbar = () => {
     return (
-        <nav className="flex justify-between backdrop-blur-sm items-center text-white font-bold fixed top-0 left-0 z-20 w-full py-[1rem] px-[6rem]">
+        <nav className="hidden lg:flex justify-between backdrop-blur-sm items-center text-white font-bold fixed top-0 left-0 z-20 w-screen py-[1rem] px-[6rem]">
             <img src={logo} alt="" />
             <ul className='flex gap-10'>
                 <li className='hover:text-blue-300'><a href="#home">Home</a></li>

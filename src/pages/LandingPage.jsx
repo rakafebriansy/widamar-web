@@ -25,70 +25,70 @@ const LandingPage = () => {
     const [isAnimated, setIsAnimated] = useState(false);
     const mountRef = useRef(null);
 
-    // useEffect(() => {
-    //     if(!isAnimated) {
-    //         const scene = new THREE.Scene();
-    //         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    //         const renderer = new THREE.WebGLRenderer();
+    useEffect(() => {
+        if(!isAnimated) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
             
-    //         renderer.setClearColor(0xffffff, 1); 
-    //         renderer.setSize(window.innerWidth, window.innerHeight);
-    //         mountRef.current.appendChild(renderer.domElement);
+            renderer.setClearColor(0xffffff, 1); 
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            mountRef.current.appendChild(renderer.domElement);
 
-    //         const controls = new OrbitControls(camera, renderer.domElement);
+            const controls = new OrbitControls(camera, renderer.domElement);
     
-    //         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    //         scene.add(ambientLight);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
 
-    //         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    //         directionalLight.position.set(5, 10, 7.5);
-    //         scene.add(directionalLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 10, 7.5);
+            scene.add(directionalLight);
 
-    //         const spotlight = new THREE.SpotLight(0xffffff, 2);
-    //         spotlight.position.set(15, 30, 20);
-    //         spotlight.castShadow = true;
-    //         scene.add(spotlight);
+            const spotlight = new THREE.SpotLight(0xffffff, 2);
+            spotlight.position.set(15, 30, 20);
+            spotlight.castShadow = true;
+            scene.add(spotlight);
             
-    //         const loader = new GLTFLoader();
-    //         const dracoLoader = new DRACOLoader();
-    //         dracoLoader.setDecoderPath('/draco/');
-    //         loader.setDRACOLoader(dracoLoader);
-    //         loader.load('http://server.widamar.com/api/ppk', function (gltf) {
-    //             scene.add(gltf.scene);
-    //             gltf.scene.position.set(0, 0, 0);
-    //         }, undefined, function (error) {
-    //             console.error('An error happened:', error);
-    //         });
+            const loader = new GLTFLoader();
+            const dracoLoader = new DRACOLoader();
+            dracoLoader.setDecoderPath('/draco/');
+            loader.setDRACOLoader(dracoLoader);
+            loader.load('http://server.widamar.com/api/ppk', function (gltf) {
+                scene.add(gltf.scene);
+                gltf.scene.position.set(0, 0, 0);
+            }, undefined, function (error) {
+                console.error('An error happened:', error);
+            });
     
-    //         camera.position.x = 50;
-    //         camera.position.z = -10;
-    //         camera.position.y = 40;
-    //         camera.lookAt(0, 0, 0);
+            camera.position.x = 50;
+            camera.position.z = -10;
+            camera.position.y = 40;
+            camera.lookAt(0, 0, 0);
 
-    //         const animate = () => {
-    //             console.log('animate')
-    //             requestAnimationFrame(animate);
-    //             controls.update();
-    //             renderer.render(scene, camera);
-    //         }
+            const animate = () => {
+                console.log('animate')
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
 
-    //         setIsAnimated(true);
-    //         animate();
+            setIsAnimated(true);
+            animate();
 
-    //         const handleResize = () => {
-    //             camera.aspect = (window.innerWidth/3) / (window.innerHeight/3);
-    //             camera.updateProjectionMatrix();
-    //             renderer.setSize((window.innerWidth/3), (window.innerHeight/3));
-    //         };
-    //         window.addEventListener('resize', handleResize);
+            const handleResize = () => {
+                camera.aspect = (window.innerWidth/3) / (window.innerHeight/3);
+                camera.updateProjectionMatrix();
+                renderer.setSize((window.innerWidth/3), (window.innerHeight/3));
+            };
+            window.addEventListener('resize', handleResize);
     
-    //         return () => {
-    //             window.removeEventListener('resize', handleResize);
-    //             mountRef.current.removeChild(renderer.domElement);
-    //             renderer.dispose();
-    //         };
-    //     }
-    // },[]);
+            return () => {
+                window.removeEventListener('resize', handleResize);
+                mountRef.current.removeChild(renderer.domElement);
+                renderer.dispose();
+            };
+        }
+    },[]);
 
     return (
         <div className="relative w-full h-screen bg-gradient-to-b from-[rgba(41,64,38,1)] via-[rgba(41,64,38,0.5)] via-10% to-20% to-[rgba(0,0,0,0)]">
